@@ -1,3 +1,0 @@
-/home/fahd/development/self-practice/learning-containers1/build/CMakeFiles/rebuild_cache.dir
-/home/fahd/development/self-practice/learning-containers1/build/CMakeFiles/container.dir
-/home/fahd/development/self-practice/learning-containers1/build/CMakeFiles/edit_cache.dir
