@@ -1,0 +1,20 @@
+{"sysstat": {
+	"hosts": [
+		{
+			"nodename": "fahd-HP-ProBook-450-G4",
+			"sysname": "Linux",
+			"release": "5.3.0-40-generic",
+			"machine": "x86_64",
+			"number-of-cpus": 4,
+			"date": "25/02/2020",
+			"statistics": [
+				{
+					"timestamp": "16:32:50",
+					"cpu-load": [
+						{"cpu": "all", "usr": 5.33, "nice": 0.04, "sys": 1.45, "iowait": 1.05, "irq": 0.00, "soft": 0.20, "steal": 0.00, "guest": 0.00, "gnice": 0.00, "idle": 91.93}
+					]
+				}
+			]
+		}
+	]
+}}
