@@ -26,4 +26,6 @@ public:
 private:
   double currValue;
   u_int lastTotalUser, lastTotalUserLow, lastTotalSys, lastTotalIdle;
+  u_int lastTotalUser = 0, lastTotalUserLow = 0, lastTotalSys = 0,
+        lastTotalIdle = 0;
 };
