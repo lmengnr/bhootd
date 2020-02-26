@@ -5,9 +5,9 @@ int main() {
   for (int i = 0; i < 10; i++) {
   };
 
-  cpu_usage A;
+  cpu_usage A("1");
   std::cout << "Node ID: " << A.node_id << std::endl;
-  std::cout << "Current CPU Usage: " << A.currValue << std::endl;
+  std::cout << "Current CPU Usage: " << A.get_currVal << std::endl;
 
   std::ifstream filestat("/proc/stat");
   std::string stat_line;

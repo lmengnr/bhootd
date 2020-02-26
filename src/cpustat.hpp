@@ -4,19 +4,28 @@
 #include <sstream>
 #include <string>
 
+void getHostname(std::string &hostname) {
+
+  std::ifstream name("/etc/hostname");
+  std::getline(name, hostname);
+}
 
 class cpu_usage {
 
 public:
-  double currValue;
-  std::string node_id;
+  double get_currVal;
+  const std::string node_id;
 
-  cpu_usage() {
+  cpu_usage(std::string id) : node_id(id) {
     currValue = get_curr_val();
-    getHostname(node_id);
+    std::cout<< "CurrValue = "<<currValue <<std::endl;
+    get_currVal = currValue;
   }
 
 private:
+  double currValue;
+  int id1;
+
   u_int lastTotalUser, lastTotalUserLow, lastTotalSys, lastTotalIdle;
 
   double get_curr_val() {
@@ -53,12 +62,4 @@ private:
 
     return percent;
   }
-
-  void getHostname(std::string &hostname) {
-
-    std::ifstream name("/etc/hostname");
-    std::getline(name, hostname);
-  }
 };
-
-
