@@ -5,5 +5,5 @@
 #include <string>
 #include <unistd.h>
 
-#include "cpustat.hpp"
 #include "cpustat.cpp"
+#include "cpustat.hpp"
