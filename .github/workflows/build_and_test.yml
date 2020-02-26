@@ -9,9 +9,7 @@ jobs:
     
     steps:
     - uses: actions/checkout@v2
-    - name: create build directory
-      run: mkdir build && cd build
     - name: cmake
-      run: ls -l
+      run: cmake -S . -B build
     - name: build binary
       run: make
