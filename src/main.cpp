@@ -3,7 +3,8 @@
 int main() {
 
   for (int i = 0; i < 10; i++) {
-  };
+  
+
 
   cpu_usage A("1");
   std::cout << "Node ID: " << A.node_id << std::endl;
@@ -15,4 +16,9 @@ int main() {
 
   std::cout << "Full CPU Stats" << std::endl;
   std::cout << stat_line << std::endl;
+
+  sleep(1);
+
+}
+
 }

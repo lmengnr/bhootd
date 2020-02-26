@@ -3,5 +3,7 @@
 #include <iostream>
 #include <sstream>
 #include <string>
+#include <unistd.h>
+
 #include "cpustat.hpp"
 #include "cpustat.cpp"
