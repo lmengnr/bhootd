@@ -1,6 +1,22 @@
 #include "main.hpp"
+#include <boost/program_options.hpp>
 
-int main() {
+int main(int argc, char **argv) {
+
+  namespace po = boost::program_options;
+
+  po::options_description desc("Allowed Options");
+  desc.add_options()("help", "Print help messages")(
+      "broker-addr", po::value<std::string>(),
+      "usage: excutable broker_address");
+
+  po::variables_map vm;
+  po::store(po::parse_command_line(argc, argv, desc), vm);
+
+  if (vm.count("help")) {
+    std::cout << "Basic help message" << std::endl << desc << std::endl;
+    return 0;
+  }
 
   while (1) {
 

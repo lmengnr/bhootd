@@ -1,7 +1,6 @@
 #include "cpustat.hpp"
 #pragma once
 
-u_int lastTotalUser, lastTotalUserLow, lastTotalSys, lastTotalIdle;
 double cpu_usage::get_curr_val() {
   u_int totalUser, totalUserLow, totalSys, totalIdle, total;
   double percent;
