@@ -13,9 +13,9 @@ public:
   double currValue;
   std::string node_id;
 
-  cpu_usage(){
-    currValue = get_curr_val();
-  }
+  cpu_usage() { currValue = get_curr_val();
+  getHostname(node_id);
+   }
 
 private:
   u_int lastTotalUser, lastTotalUserLow, lastTotalSys, lastTotalIdle;
@@ -28,7 +28,6 @@ private:
     std::string stat_line;
     std::getline(filestat, stat_line);
 
-    std::cout << stat_line << std::endl;
 
     std::string stat_line2 = stat_line.substr(5, stat_line.find(" 0 0"));
 
@@ -56,13 +55,21 @@ private:
 
     return percent;
   }
+
+  void getHostname(std::string & hostname) {
+    
+    std::ifstream name("/etc/hostname");
+    std::getline(name, hostname);
+  }
 };
 
 u_int lastTotalUser, lastTotalUserLow, lastTotalSys, lastTotalIdle;
 
 int main(int argc, char *argv[]) {
 
-  std::string name;
+  cpu_usage A;
+  std::cout<< "Node ID: "<< A.node_id << std::endl;
+  std::cout<< "Current CPU Usage: " << A.currValue << std::endl;
   
   
   u_int totalUser, totalUserLow, totalSys, totalIdle, total;
@@ -100,4 +107,6 @@ int main(int argc, char *argv[]) {
     percent /= total;
     percent *= 100;
   }
+
+ // std::cout<< percent <<std::endl;
 }
