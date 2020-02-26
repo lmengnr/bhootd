@@ -12,4 +12,4 @@ jobs:
     - name: cmake
       run: cmake -S . -B build
     - name: build binary
-      run: make
+      run: cmake --build ./build
