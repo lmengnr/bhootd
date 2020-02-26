@@ -4,3 +4,4 @@
 #include <sstream>
 #include <string>
 #include "cpustat.hpp"
+#include "cpustat.cpp"
