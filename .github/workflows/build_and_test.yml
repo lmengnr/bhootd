@@ -12,6 +12,6 @@ jobs:
     - name: create build directory
       run: mkdir build && cd build
     - name: cmake
-      run: cmake ..
+      run: ls -l
     - name: build binary
       run: make
