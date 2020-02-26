@@ -7,3 +7,13 @@ This repo is for learning command line instructions through c++.
 - Parse the data.
 - Send the data to MQTT broker.
 - Repeat.
+
+### Things Learned and Used
+- Boost
+- CLI
+- Refactoring and good formatting
+- include/header guarding
+- Github actions
+- Github branch rules
+
+
