@@ -8,14 +8,26 @@ int main(int argc, char **argv) {
   po::options_description desc("Allowed Options");
   desc.add_options()("help", "Print help messages")(
       "broker-addr", po::value<std::string>(),
-      "usage: excutable broker_address");
+      "usage: ./excutable <broker address>")("skip", "display stats");
 
   po::variables_map vm;
   po::store(po::parse_command_line(argc, argv, desc), vm);
 
   if (vm.count("help")) {
     std::cout << "Basic help message" << std::endl << desc << std::endl;
-    return 0;
+    return 1;
+  }
+  if (vm.count("broker-addr")) {
+    // address provided so skip ahead
+    std::cout << "Address Provided is: " << vm["broker-addr"].as<std::string>()
+              << std::endl;
+
+  } else if (vm.count("skip")) {
+    // start displaying stats
+    // This option is just temporary. Remove this later
+  } else {
+    std::cout << "No address provided" << std::endl << desc << std::endl;
+    return 1;
   }
 
   while (1) {
