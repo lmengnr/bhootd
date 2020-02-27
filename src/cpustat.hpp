@@ -18,13 +18,9 @@ public:
   double get_curr_val();
   const std::string node_id;
 
-  CpuUsage(std::string id) : node_id(id) {
-    currValue = get_curr_val();
-    std::cout << "CurrValue = " << currValue << std::endl;
-  }
+  CpuUsage(std::string id) : node_id(id) {}
 
 private:
-  double currValue;
   uint32_t lastTotalUser = 0;
   uint32_t lastTotalUserLow = 0;
   uint32_t lastTotalSys = 0;

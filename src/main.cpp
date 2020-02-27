@@ -40,6 +40,7 @@ int main(int argc, char **argv) {
 
   while (1) {
 
+    json_out.str(std::string());
     json_out << "{ \"node_id\": " << orb.node_id
              << ", \"cpu_usage\": " << orb.get_curr_val() << " }";
 
