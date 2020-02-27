@@ -12,13 +12,13 @@ void getHostname(std::string &hostname) {
   std::getline(name, hostname);
 }
 
-class cpu_usage {
+class CpuUsage {
 
 public:
   double get_curr_val();
   const std::string node_id;
 
-  cpu_usage(std::string id) : node_id(id) {
+  CpuUsage(std::string id) : node_id(id) {
     currValue = get_curr_val();
     std::cout << "CurrValue = " << currValue << std::endl;
   }
