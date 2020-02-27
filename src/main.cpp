@@ -8,7 +8,7 @@ int main(int argc, char **argv) {
   po::options_description desc("Allowed Options");
   desc.add_options()("help", "Print help messages")(
       "broker-addr", po::value<std::string>(),
-      "usage: ./excutable <broker address>")("skip", "display stats");
+      "<IP address of broker e.g. 127.0.0.1>")("skip", "display stats");
 
   po::variables_map vm;
   po::store(po::parse_command_line(argc, argv, desc), vm);
@@ -30,11 +30,15 @@ int main(int argc, char **argv) {
     return 1;
   }
 
+  cpu_usage orb("1");
+
   while (1) {
 
-    cpu_usage A("1");
-    std::cout << "Node ID: " << A.node_id << std::endl;
-    std::cout << "Current CPU Usage: " << A.get_curr_val() << std::endl;
+    std::stringstream json_out;
+    json_out << "{ \"node_id\": " << orb.node_id
+             << ", \"cpu_usage\": " << orb.get_curr_val() << " }";
+
+    std::cout << json_out.str() << std::endl;
 
     std::ifstream filestat("/proc/stat");
     std::string stat_line;
