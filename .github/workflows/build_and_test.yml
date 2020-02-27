@@ -5,11 +5,20 @@ on: [push, pull_request]
 jobs:
   build:
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
     
     steps:
     - uses: actions/checkout@v2
+    - name: install pre-requisites
+      run: |
+        sudo apt update
+        sudo apt install -y libboost1.65-all-dev
     - name: cmake
-      run: cmake -S . -B build
+      run: |
+        mkdir build
+        cd build 
+        cmake ..
     - name: build binary
-      run: cmake --build ./build
+      run: |
+        cd build
+        make
