@@ -7,3 +7,7 @@ if(Boost_FOUND)
   target_link_libraries(cpu-stat ${Boost_LIBRARIES})
 endif()
 # The main program
+
+if(NOT Boost_FOUND)
+  message(FATAL_ERROR "Boost lib not found")
+endif()
