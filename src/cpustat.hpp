@@ -25,7 +25,8 @@ public:
 
 private:
   double currValue;
-  u_int lastTotalUser, lastTotalUserLow, lastTotalSys, lastTotalIdle;
-  u_int lastTotalUser = 0, lastTotalUserLow = 0, lastTotalSys = 0,
-        lastTotalIdle = 0;
+  unsigned int lastTotalUser = 0;
+  unsigned int lastTotalUserLow = 0;
+  unsigned int lastTotalSys = 0;
+  unsigned int lastTotalIdle = 0;
 };
