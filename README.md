@@ -1,5 +1,8 @@
-# C++ CLI: CPU stats
-This repo is for learning command line instructions through c++. 
+# `bhootd`
+_Bhoot are a deamons. We can't see them, but they can see us._
+
+`bhootd` is a daemon that runs on nodes and sends CPU usage data to an MQTT message broker. `bhoot` can display this data too.
+
 
 ## Project Tasks
 - Learn how to get cpu usage in Linux.
