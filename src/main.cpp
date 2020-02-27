@@ -40,13 +40,6 @@ int main(int argc, char **argv) {
 
     std::cout << json_out.str() << std::endl;
 
-    std::ifstream filestat("/proc/stat");
-    std::string stat_line;
-    std::getline(filestat, stat_line);
-
-    std::cout << "Full CPU Stats" << std::endl;
-    std::cout << stat_line << std::endl;
-
     sleep(1);
   }
 }
