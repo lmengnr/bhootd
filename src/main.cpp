@@ -30,7 +30,10 @@ int main(int argc, char **argv) {
   po::store(po::parse_command_line(argc, argv, desc), vm);
 
   if (vm.count("help")) {
-    std::cout << "Basic help message" << std::endl << desc << std::endl;
+    std::cout << "bhootd is a daemon that runs on nodes and sends CPU usage "
+                 "data to an MQTT message broker."
+              << std::endl
+              << desc << std::endl;
     return 1;
   }
   if (vm.count("broker-addr")) {
@@ -56,10 +59,11 @@ int main(int argc, char **argv) {
       tok->wait(); // Just wait for the last one to complete.
       std::cout << "OK" << std::endl;
 
+      tok = top.publish("working");
+
       cli.disconnect()->wait();
       std::cout << "  ...OK" << std::endl;
 
-      tok = top.publish("working");
     }
 
     catch (const mqtt::exception &exc) {
