@@ -1,6 +1,19 @@
 #include "main.hpp"
 #include <boost/program_options.hpp>
 
+/////////////////////////////////////////////////////////////////////////////////
+
+const std::string DFLT_SERVER_ADDRESS{"tcp://localhost:1883"};
+
+const std::string TOPIC{"test"};
+const int QOS = 1;
+
+const char *PAYLOADS[] = {"Hello World!", "Hi there!", "Is anyone listening?",
+                          "Someone is always listening.", nullptr};
+
+const auto TIMEOUT = std::chrono::seconds(10);
+
+/////////////////////////////////////////////////////////////////////////////////
 
 int main(int argc, char **argv) {
 
@@ -24,6 +37,35 @@ int main(int argc, char **argv) {
     // address provided so skip ahead
     std::cout << "Address Provided is: " << vm["broker-addr"].as<std::string>()
               << std::endl;
+
+    std::string address = vm["broker-addr"].as<std::string>();
+    mqtt::async_client cli(address, "");
+
+    try {
+      std::cout << "\nConnecting..." << std::endl;
+      cli.connect()->wait();
+      std::cout << "  ...OK" << std::endl;
+
+      mqtt::topic top(cli, "test", QOS);
+      mqtt::token_ptr tok;
+
+      size_t i = 0;
+      while (PAYLOADS[i]) {
+        tok = top.publish(PAYLOADS[i++]);
+      }
+      tok->wait(); // Just wait for the last one to complete.
+      std::cout << "OK" << std::endl;
+
+      cli.disconnect()->wait();
+      std::cout << "  ...OK" << std::endl;
+
+      tok = top.publish("working");
+    }
+
+    catch (const mqtt::exception &exc) {
+      std::cerr << exc.what() << std::endl;
+      return 1;
+    }
 
   } else if (vm.count("see-stats")) {
     // start displaying stats
