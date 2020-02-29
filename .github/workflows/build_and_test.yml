@@ -12,7 +12,6 @@ jobs:
     - name: install pre-requisites
       run: |
         sudo apt update
-        sudo apt update
         sudo apt install -y libboost1.65-all-dev build-essential gcc make cmake cmake-gui cmake-curses-gui libssl-dev doxygen graphviz
         cd thirdparty
         git clone -b v1.3.1 https://github.com/eclipse/paho.mqtt.c.git
@@ -21,6 +20,19 @@ jobs:
         cmake -Bbuild -H. -DPAHO_WITH_SSL=ON -DPAHO_ENABLE_TESTING=OFF
         sudo cmake --build build/ --target install
         sudo ldconfig
+        popd
+        cd paho.mqtt.cpp
+        cmake -Bbuild -H.
+        sudo cmake --build build/ --target install
+        sudo ldconfig
+        git clone -b poco-1.10.1-release https://github.com/pocoproject/poco.git
+        cd poco
+        mkdir cmake-build
+        cd cmake-build
+        cmake ..
+        cmake --build . --config Release
+        sudo cmake --build . --target install
+        sudo ldconfig -v
     - name: cmake
       run: |
         mkdir build
