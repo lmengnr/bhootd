@@ -17,4 +17,3 @@ endif()
 if(NOT Boost_FOUND)
   message(FATAL_ERROR "Boost lib not found")
 endif()
-
