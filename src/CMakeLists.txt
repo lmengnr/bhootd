@@ -1,5 +1,6 @@
 project(cpp-cli)
 
+# PAHO linking
 set(PAHO_CPP_LIB paho-mqttpp3)
 set(PAHO_C_LIB paho-mqtt3as)
 
