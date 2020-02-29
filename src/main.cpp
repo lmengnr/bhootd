@@ -1,20 +1,6 @@
 #include "main.hpp"
 #include <boost/program_options.hpp>
 
-/////////////////////////////////////////////////////////////////////////////////
-
-const std::string DFLT_SERVER_ADDRESS{"tcp://localhost:1883"};
-
-const std::string TOPIC{"test"};
-const int QOS = 1;
-
-const char *PAYLOADS[] = {"Hello World!", "Hi there!", "Is anyone listening?",
-                          "Someone is always listening.", nullptr};
-
-const auto TIMEOUT = std::chrono::seconds(10);
-
-/////////////////////////////////////////////////////////////////////////////////
-
 int main(int argc, char **argv) {
 
   namespace po = boost::program_options;
@@ -41,36 +27,6 @@ int main(int argc, char **argv) {
     std::cout << "Address Provided is: " << vm["broker-addr"].as<std::string>()
               << std::endl;
 
-    std::string address = vm["broker-addr"].as<std::string>();
-    mqtt::async_client cli(address, "");
-
-    try {
-      std::cout << "\nConnecting..." << std::endl;
-      cli.connect()->wait();
-      std::cout << "  ...OK" << std::endl;
-
-      mqtt::topic top(cli, "test", QOS);
-      mqtt::token_ptr tok;
-
-      size_t i = 0;
-      while (PAYLOADS[i]) {
-        tok = top.publish(PAYLOADS[i++]);
-      }
-      tok->wait(); // Just wait for the last one to complete.
-      std::cout << "OK" << std::endl;
-
-      tok = top.publish("working");
-
-      cli.disconnect()->wait();
-      std::cout << "  ...OK" << std::endl;
-
-    }
-
-    catch (const mqtt::exception &exc) {
-      std::cerr << exc.what() << std::endl;
-      return 1;
-    }
-
   } else if (vm.count("see-stats")) {
     // start displaying stats
   }
@@ -84,15 +40,47 @@ int main(int argc, char **argv) {
 
   CpuUsage orb(vm["node-id"].as<std::string>());
   std::stringstream json_out;
+  std::string json_str = json_out.str();
+  char *c = &json_str[0];
 
-  while (1) {
+  std::string address = vm["broker-addr"].as<std::string>();
+  mqtt::async_client cli(address, "");
 
-    json_out.str(std::string());
-    json_out << "{ \"node_id\": \"" << orb.node_id
-             << "\", \"cpu_usage\": " << orb.get_curr_val() << " }";
+  std::cout << "\nConnecting..." << std::endl;
+  cli.connect()->wait();
+  std::cout << "  ...OK" << std::endl;
 
-    std::cout << json_out.str() << std::endl;
+  mqtt::topic top(cli, "test", QOS);
+  mqtt::token_ptr tok;
 
-    sleep(1);
+  try {
+
+    while (1) {
+
+      json_out.str(std::string());
+      json_out << "{ \"node_id\": \"" << orb.node_id
+               << "\", \"cpu_usage\": " << orb.get_curr_val() << " }";
+
+      std::cout << json_out.str() << std::endl;
+      json_str = json_out.str();
+      c = &json_str[0];
+
+      std::cout << c << std::endl;
+
+      tok = top.publish(c);
+
+      tok->wait(); // Just wait for the last one to complete.
+
+      sleep(1);
+    }
+
+    cli.disconnect()->wait();
+    std::cout << "  ...OK" << std::endl;
+
+  }
+
+  catch (const mqtt::exception &exc) {
+    std::cerr << exc.what() << std::endl;
+    return 1;
   }
 }
