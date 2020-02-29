@@ -25,14 +25,6 @@ jobs:
         cmake -Bbuild -H.
         sudo cmake --build build/ --target install
         sudo ldconfig
-        git clone -b poco-1.10.1-release https://github.com/pocoproject/poco.git
-        cd poco
-        mkdir cmake-build
-        cd cmake-build
-        cmake ..
-        cmake --build . --config Release
-        sudo cmake --build . --target install
-        sudo ldconfig -v
     - name: cmake
       run: |
         mkdir build
