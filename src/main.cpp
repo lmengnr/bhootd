@@ -15,6 +15,8 @@ int main(int argc, char **argv) {
   po::variables_map vm;
   po::store(po::parse_command_line(argc, argv, desc), vm);
 
+  bool addr_provided = 0;
+
   if (vm.count("help")) {
     std::cout << "bhootd is a daemon that runs on nodes and sends CPU usage "
                  "data to an MQTT message broker."
@@ -23,12 +25,10 @@ int main(int argc, char **argv) {
     return 1;
   }
   if (vm.count("broker-addr")) {
-    // address provided so skip ahead
+
     std::cout << "Address Provided is: " << vm["broker-addr"].as<std::string>()
               << std::endl;
-
-  } else if (vm.count("see-stats")) {
-    // start displaying stats
+    addr_provided = 1;
   }
   if (vm.count("node-id")) {
     std::cout << "ID of the Node is: " << vm["node-id"].as<std::string>()
@@ -38,10 +38,13 @@ int main(int argc, char **argv) {
     return 1;
   }
 
+  // If there was no address then stop
+  if (!addr_provided)
+    return 1;
+
   CpuUsage orb(vm["node-id"].as<std::string>());
   std::stringstream json_out;
   std::string json_str = json_out.str();
-  char *c = &json_str[0];
 
   std::string address = vm["broker-addr"].as<std::string>();
   mqtt::async_client cli(address, "");
@@ -63,11 +66,8 @@ int main(int argc, char **argv) {
 
       std::cout << json_out.str() << std::endl;
       json_str = json_out.str();
-      c = &json_str[0];
 
-      std::cout << c << std::endl;
-
-      tok = top.publish(c);
+      tok = top.publish(json_str.c_str());
 
       tok->wait(); // Just wait for the last one to complete.
 
