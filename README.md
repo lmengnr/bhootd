@@ -16,10 +16,11 @@ $ cmake -Bbuild -H. -DPAHO_WITH_SSL=ON -DPAHO_ENABLE_TESTING=OFF
 $ sudo cmake --build build/ --target install
 $ sudo ldconfig
 $ popd
-$ cd paho.mqtt.cpp
+$ pushd paho.mqtt.cpp
 $ cmake -Bbuild -H.
 $ sudo cmake --build build/ --target install
 $ sudo ldconfig
+$ popd
 $ 
 $ mkdir build
 $ cd build 
