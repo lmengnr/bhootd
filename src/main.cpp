@@ -9,8 +9,7 @@ int main(int argc, char **argv) {
   desc.add_options()("help", "Print help messages")(
       "broker-addr", po::value<std::string>(),
       "<IP address of broker e.g. 127.0.0.1>")(
-      "node-id", po::value<std::string>(), "ID of this node")("see-stats",
-                                                              "display stats");
+      "node-id", po::value<std::string>(), "ID of this node");
 
   po::variables_map vm;
   po::store(po::parse_command_line(argc, argv, desc), vm);
