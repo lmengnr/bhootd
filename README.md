@@ -33,16 +33,16 @@ Here's how you can setup an MQTT broker for yourself.
 
 Open a terminal and run the following command
 ```console
-docker run -it -p 1883:1883 -p 9001:9001 eclipse-mosquitto
+$ docker run -it -p 1883:1883 -p 9001:9001 eclipse-mosquitto
 ```
 
 Now on seperate terminals run:
 ```console
-mosquitto_sub -t cpu/json 
+$ mosquitto_sub -t cpu/json 
 ```
 
 ```console
-mosquitto_sub -t cpu/usage 
+$ mosquitto_sub -t cpu/usage 
 ```
 
 This will create subscribers on which you can publish. The subscriber topic is "cpu", with 2 subtopics "json" and "usage". 
