@@ -18,7 +18,7 @@ public:
   double get_curr_val();
   const std::string node_id;
   int get_QOS() { return QOS; };
-  std::string TOPIC{"test"};
+  std::string TOPIC{"cpu/json"};
 
   CpuUsage(std::string id) : node_id(id) {}
 
