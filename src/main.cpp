@@ -9,12 +9,21 @@ int main(int argc, char **argv) {
   desc.add_options()("help", "Print help messages")(
       "broker-addr", po::value<std::string>(),
       "<IP address of broker e.g. 127.0.0.1>")(
-      "node-id", po::value<std::string>(), "ID of this node");
+      "node-id", po::value<std::string>(),
+      "ID of this node")("see-stats", "display stats on terminal");
 
   po::variables_map vm;
   po::store(po::parse_command_line(argc, argv, desc), vm);
 
   bool addr_provided = 0;
+  bool simple_output = 0;
+
+  if (vm.count("see-stats")) {
+    std::cout << "Show stats provided" << std::endl;
+    simple_output = 1;
+
+    // return 1;
+  }
 
   if (vm.count("help")) {
     std::cout << "bhootd is a daemon that runs on nodes and sends CPU usage "
@@ -32,18 +41,36 @@ int main(int argc, char **argv) {
   if (vm.count("node-id")) {
     std::cout << "ID of the Node is: " << vm["node-id"].as<std::string>()
               << std::endl;
-  } else {
+  } else if (addr_provided == 0 && simple_output == 0) {
     std::cout << "No address provided" << std::endl << desc << std::endl;
     return 1;
   }
 
-  // If there was no address then stop
-  if (!addr_provided)
-    return 1;
+  if (simple_output) {
+    CpuUsage simple_stats("none");
+    std::stringstream simple_json;
+
+    while (1) {
+      simple_json.str(std::string());
+      simple_json << "{ \"node_id\": \""
+                  << "none"
+                  << "\", \"cpu_usage\": " << simple_stats.get_curr_val()
+                  << " }";
+
+      std::cout << simple_json.str() << std::endl;
+
+      sleep(1);
+    }
+    return 0;
+  }
 
   CpuUsage orb(vm["node-id"].as<std::string>());
   std::stringstream json_out;
   std::string json_str = json_out.str();
+
+  // If there was no address then stop
+  if (!addr_provided)
+    return 1;
 
   std::string address = vm["broker-addr"].as<std::string>();
   mqtt::async_client cli(address, "");
