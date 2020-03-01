@@ -80,6 +80,7 @@ int main(int argc, char **argv) {
   std::stringstream json_out;
   std::string json_str = json_out.str();
   std::string address = vm["broker-addr"].as<std::string>();
+  std::string usage;
 
   // MQTT publisher setup
   mqtt::async_client cli(address, "");
@@ -89,10 +90,15 @@ int main(int argc, char **argv) {
   std::cout << "  ...OK" << std::endl;
 
   const int QOS = orb.get_QOS();
-  const std::string topic = orb.TOPIC; // Topic string. Can be changed
+  orb.TOPIC = "cpu/json";
+  const std::string topic = orb.TOPIC;    // Topic string
+  const std::string topic2 = "cpu/usage"; // You can also just define it here
 
   mqtt::topic top(cli, topic, QOS); // topic setup
+  mqtt::topic top2(cli, topic2, QOS);
+
   mqtt::token_ptr tok;
+  mqtt::token_ptr tok2;
 
   // -------------------- Publishing Block ---------------------------
   // -----------------------------------------------------------------
@@ -104,10 +110,13 @@ int main(int argc, char **argv) {
       json_out << "{ \"node_id\": \"" << orb.node_id
                << "\", \"cpu_usage\": " << orb.get_curr_val() << " }";
 
+      usage = std::to_string(orb.get_curr_val());
+
       std::cout << json_out.str() << std::endl;
       json_str = json_out.str();
 
       tok = top.publish(json_str.c_str());
+      tok2 = top2.publish(usage.c_str());
 
       tok->wait(); // Just wait for the last one to complete.
 
