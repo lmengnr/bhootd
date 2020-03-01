@@ -2,3 +2,5 @@ src/build/
 src/build/cpu-stat
 stat.json
 build/
+thirdparty/paho.mqtt.c
+thirdparty/paho.mqtt.cpp
