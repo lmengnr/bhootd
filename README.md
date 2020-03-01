@@ -45,7 +45,7 @@ $ mosquitto_sub -t cpu/json
 $ mosquitto_sub -t cpu/usage 
 ```
 
-This will create subscribers on which you can publish. The subscriber topic is "cpu", with 2 subtopics "json" and "usage". 
+This will create subscribers on which you can publish. The subscriber topics are `cpu/json` and `cpu/usage`. 
 You can also setup a subscriber on your phones which will also be able to recieve the published messages. There are a number of apps for it. Now you are ready to publish, look at the usage below.
 
 
