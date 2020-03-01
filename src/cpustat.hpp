@@ -17,6 +17,8 @@ class CpuUsage {
 public:
   double get_curr_val();
   const std::string node_id;
+  int get_QOS() { return QOS; };
+  std::string TOPIC{"test"};
 
   CpuUsage(std::string id) : node_id(id) {}
 
@@ -25,4 +27,6 @@ private:
   uint32_t lastTotalUserLow = 0;
   uint32_t lastTotalSys = 0;
   uint32_t lastTotalIdle = 0;
+
+  const int QOS = 1;
 };

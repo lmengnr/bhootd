@@ -5,6 +5,13 @@ int main(int argc, char **argv) {
 
   namespace po = boost::program_options;
 
+  //  ------------- Some setups for MQTT async publisher ------------
+  const std::string DFLT_SERVER_ADDRESS{"tcp://localhost:1883"};
+  const auto TIMEOUT = std::chrono::seconds(10);
+  // ----------------------------------------------------------------
+
+  // Reading passed arguments with boost program options
+
   po::options_description desc("Allowed Options");
   desc.add_options()("help", "Print help messages")(
       "broker-addr", po::value<std::string>(),
@@ -21,8 +28,6 @@ int main(int argc, char **argv) {
   if (vm.count("see-stats")) {
     std::cout << "Show stats provided" << std::endl;
     simple_output = 1;
-
-    // return 1;
   }
 
   if (vm.count("help")) {
@@ -46,6 +51,8 @@ int main(int argc, char **argv) {
     return 1;
   }
 
+  // ------------ if the option of 'see-stats' is passed then display the stats
+  // on the terminal ----------------------------------------------------------
   if (simple_output) {
     CpuUsage simple_stats("none");
     std::stringstream simple_json;
@@ -63,25 +70,32 @@ int main(int argc, char **argv) {
     }
     return 0;
   }
+  // ------------------------------------------------------------------------
+  // -------- End of the simple output implementation block -----------------
 
+  // Defining CpuUsage object "orb" which will transmit our data
   CpuUsage orb(vm["node-id"].as<std::string>());
+
+  // The strings and string stream which will hold our data
   std::stringstream json_out;
   std::string json_str = json_out.str();
-
-  // If there was no address then stop
-  if (!addr_provided)
-    return 1;
-
   std::string address = vm["broker-addr"].as<std::string>();
+
+  // MQTT publisher setup
   mqtt::async_client cli(address, "");
 
   std::cout << "\nConnecting..." << std::endl;
   cli.connect()->wait();
   std::cout << "  ...OK" << std::endl;
 
-  mqtt::topic top(cli, "test", QOS);
+  const int QOS = orb.get_QOS();
+  const std::string topic = orb.TOPIC; // Topic string. Can be changed
+
+  mqtt::topic top(cli, topic, QOS); // topic setup
   mqtt::token_ptr tok;
 
+  // -------------------- Publishing Block ---------------------------
+  // -----------------------------------------------------------------
   try {
 
     while (1) {
@@ -109,6 +123,8 @@ int main(int argc, char **argv) {
     std::cerr << exc.what() << std::endl;
     return 1;
   }
+  // ----------------------------------------------------------------
+  // ---------------- End of Publishing block -----------------------
 
   return 0;
 }
