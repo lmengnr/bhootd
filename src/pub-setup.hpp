@@ -1,3 +1,4 @@
+#pragma once
 #include "mqtt/async_client.h"
 
 const std::string DFLT_SERVER_ADDRESS{"tcp://localhost:1883"};
