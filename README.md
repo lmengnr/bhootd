@@ -28,6 +28,23 @@ $ cmake ..
 $ make
 ```
 
+## Broker Setup
+Here's how you can setup an MQTT broker for yourself.
+
+Open a terminal and run the following command
+```console
+docker run -it -p 1883:1883 -p 9001:9001 eclipse-mosquitto
+```
+
+Now on a seperate terminal run:
+```console
+mosquitto_sub -t test 
+```
+
+This will create a subscriber on which you can publish. The subscriber topic is "test", which is the same as our program. 
+You can also setup a subscriber on your phones which will also be able to recieve the published messages. There are a number of apps for it. Now you are ready to publish, look at the usage below.
+
+
 ## Usage
 
 ```console
@@ -37,7 +54,6 @@ Allowed Options:
   --help                Print help messages
   --broker-addr arg     <IP address of broker e.g. 127.0.0.1>
   --node-id arg         ID of this node
-  --see-stats           display stats
 
 ```
 
