@@ -6,12 +6,6 @@
 #include <sstream>
 #include <string>
 
-void getHostname(std::string &hostname) {
-
-  std::ifstream name("/etc/hostname");
-  std::getline(name, hostname);
-}
-
 class CpuUsage {
 
 public:
