@@ -15,9 +15,9 @@ void getHostname(std::string &hostname) {
 class CpuUsage {
 
 public:
-  double get_curr_val();
+  double get_curr_val() const;
   const std::string node_id;
-  int get_QOS() { return QOS; };
+  int get_QOS() const { return QOS; };
   std::string TOPIC{"cpu/json"};
 
   CpuUsage(std::string id) : node_id(id) {}
