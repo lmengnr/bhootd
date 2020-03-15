@@ -1,5 +1,5 @@
 # `bhootd`
-![C/C++ CI](https://github.com/lmengnr/bhootd/workflows/C/C++%20CI/badge.svg)
+[![C/C++ CI](https://github.com/lmengnr/bhootd/workflows/C/C++%20CI/badge.svg)](https://github.com/lmengnr/bhootd/actions?query=workflow%3A%22C%2FC%2B%2B+CI%22)
 
 _Bhoot are a deamons. We can't see them, but they can see us._
 
