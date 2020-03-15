@@ -1,4 +1,6 @@
 # `bhootd`
+![C/C++ CI](https://github.com/lmengnr/bhootd/workflows/C/C++%20CI/badge.svg)
+
 _Bhoot are a deamons. We can't see them, but they can see us._
 
 `bhootd` is a daemon that runs on nodes and sends CPU usage data to an MQTT message broker. `bhoot` can display this data too.
